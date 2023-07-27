@@ -21,7 +21,8 @@
       "noUnusedParameters": true,
       "noUnusedLocals": true,
       "noFallthroughCasesInSwitch": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "newLine": "crlf"
    },
    "include": [
       "src/**/*.ts"

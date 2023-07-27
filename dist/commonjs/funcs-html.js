@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.encodeLink = exports.decodeHtml = exports.encodeHtml = exports.makeEndTag = exports.makeStartTag = void 0;
 var EncodeTarget;
 (function (EncodeTarget) {
     EncodeTarget[EncodeTarget["Html"] = 0] = "Html";
@@ -23,12 +24,12 @@ function makeStartTag(tag, attrs) {
     if (tag === 'img' || tag === 'br') {
         closing = '/>';
     }
-    return attrsStr ? "<" + tag + " " + attrsStr + closing : "<" + tag + closing;
+    return attrsStr ? "<".concat(tag, " ").concat(attrsStr).concat(closing) : "<".concat(tag).concat(closing);
 }
 exports.makeStartTag = makeStartTag;
 function makeEndTag(tag) {
     if (tag === void 0) { tag = ''; }
-    return (tag && "</" + tag + ">") || '';
+    return (tag && "</".concat(tag, ">")) || '';
 }
 exports.makeEndTag = makeEndTag;
 function decodeHtml(str) {

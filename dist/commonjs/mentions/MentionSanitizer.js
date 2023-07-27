@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MentionSanitizer = void 0;
 var OpLinkSanitizer_1 = require("../OpLinkSanitizer");
 var MentionSanitizer = (function () {
     function MentionSanitizer() {

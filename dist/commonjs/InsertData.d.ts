@@ -9,5 +9,5 @@ declare class InsertDataCustom {
     readonly value: any;
     constructor(type: string, value: any);
 }
-declare type InsertData = InsertDataCustom | InsertDataQuill;
+type InsertData = InsertDataCustom | InsertDataQuill;
 export { InsertData, InsertDataCustom, InsertDataQuill };

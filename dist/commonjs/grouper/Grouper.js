@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Grouper = void 0;
 var DeltaInsertOp_1 = require("./../DeltaInsertOp");
 var array_1 = require("./../helpers/array");
 var group_types_1 = require("./group-types");
@@ -26,12 +27,12 @@ var Grouper = (function () {
                 result.push(new group_types_1.BlotBlock(op));
             }
             else if (op.isContainerBlock()) {
-                opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, canBeInBlock);
+                opsSlice = (0, array_1.sliceFromReverseWhile)(ops, i - 1, canBeInBlock);
                 result.push(new group_types_1.BlockGroup(op, opsSlice.elements));
                 i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
             }
             else {
-                opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, isInlineData);
+                opsSlice = (0, array_1.sliceFromReverseWhile)(ops, i - 1, isInlineData);
                 result.push(new group_types_1.InlineGroup(opsSlice.elements.concat(op)));
                 i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
             }
@@ -46,7 +47,7 @@ var Grouper = (function () {
             blockquotes: true,
             customBlocks: true,
         }; }
-        return array_1.groupConsecutiveElementsWhile(groups, function (g, gPrev) {
+        return (0, array_1.groupConsecutiveElementsWhile)(groups, function (g, gPrev) {
             if (!(g instanceof group_types_1.BlockGroup) || !(gPrev instanceof group_types_1.BlockGroup)) {
                 return false;
             }
@@ -70,7 +71,7 @@ var Grouper = (function () {
                 return elm;
             }
             var groupsLastInd = elm.length - 1;
-            elm[0].ops = array_1.flatten(elm.map(function (g, i) {
+            elm[0].ops = (0, array_1.flatten)(elm.map(function (g, i) {
                 if (!g.ops.length) {
                     return [newLineOp];
                 }

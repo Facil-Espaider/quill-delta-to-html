@@ -1,12 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.QuillDeltaToHtmlConverter = void 0;
 var InsertOpsConverter_1 = require("./InsertOpsConverter");
 var OpToHtmlConverter_1 = require("./OpToHtmlConverter");
 var Grouper_1 = require("./grouper/Grouper");
@@ -149,9 +166,9 @@ var QuillDeltaToHtmlConverter = (function () {
     QuillDeltaToHtmlConverter.prototype._renderList = function (list) {
         var _this = this;
         var firstItem = list.items[0];
-        return (funcs_html_1.makeStartTag(this._getListTag(firstItem.item.op)) +
+        return ((0, funcs_html_1.makeStartTag)(this._getListTag(firstItem.item.op)) +
             list.items.map(function (li) { return _this._renderListItem(li); }).join('') +
-            funcs_html_1.makeEndTag(this._getListTag(firstItem.item.op)));
+            (0, funcs_html_1.makeEndTag)(this._getListTag(firstItem.item.op)));
     };
     QuillDeltaToHtmlConverter.prototype._renderListItem = function (li) {
         li.item.op.attributes.indent = 0;
@@ -165,30 +182,30 @@ var QuillDeltaToHtmlConverter = (function () {
     };
     QuillDeltaToHtmlConverter.prototype._renderTable = function (table) {
         var _this = this;
-        return (funcs_html_1.makeStartTag('table') +
-            funcs_html_1.makeStartTag('tbody') +
+        return ((0, funcs_html_1.makeStartTag)('table') +
+            (0, funcs_html_1.makeStartTag)('tbody') +
             table.rows.map(function (row) { return _this._renderTableRow(row); }).join('') +
-            funcs_html_1.makeEndTag('tbody') +
-            funcs_html_1.makeEndTag('table'));
+            (0, funcs_html_1.makeEndTag)('tbody') +
+            (0, funcs_html_1.makeEndTag)('table'));
     };
     QuillDeltaToHtmlConverter.prototype._renderTableRow = function (row) {
         var _this = this;
-        return (funcs_html_1.makeStartTag('tr') +
+        return ((0, funcs_html_1.makeStartTag)('tr') +
             row.cells.map(function (cell) { return _this._renderTableCell(cell); }).join('') +
-            funcs_html_1.makeEndTag('tr'));
+            (0, funcs_html_1.makeEndTag)('tr'));
     };
     QuillDeltaToHtmlConverter.prototype._renderTableCell = function (cell) {
         var converter = new OpToHtmlConverter_1.OpToHtmlConverter(cell.item.op, this.converterOptions);
         var parts = converter.getHtmlParts();
         var cellElementsHtml = this._renderInlines(cell.item.ops, false);
-        return (funcs_html_1.makeStartTag('td', {
+        return ((0, funcs_html_1.makeStartTag)('td', {
             key: 'data-row',
             value: cell.item.op.attributes.table,
         }) +
             parts.openingTag +
             cellElementsHtml +
             parts.closingTag +
-            funcs_html_1.makeEndTag('td'));
+            (0, funcs_html_1.makeEndTag)('td'));
     };
     QuillDeltaToHtmlConverter.prototype._renderBlock = function (bop, ops) {
         var _this = this;
@@ -196,7 +213,7 @@ var QuillDeltaToHtmlConverter = (function () {
         var htmlParts = converter.getHtmlParts();
         if (bop.isCodeBlock()) {
             return (htmlParts.openingTag +
-                funcs_html_1.encodeHtml(ops
+                (0, funcs_html_1.encodeHtml)(ops
                     .map(function (iop) {
                     return iop.isCustomEmbed()
                         ? _this._renderCustom(iop, bop)
@@ -223,8 +240,8 @@ var QuillDeltaToHtmlConverter = (function () {
         if (!isInlineGroup) {
             return html;
         }
-        var startParaTag = funcs_html_1.makeStartTag(this.options.paragraphTag);
-        var endParaTag = funcs_html_1.makeEndTag(this.options.paragraphTag);
+        var startParaTag = (0, funcs_html_1.makeStartTag)(this.options.paragraphTag);
+        var endParaTag = (0, funcs_html_1.makeEndTag)(this.options.paragraphTag);
         if (html === BrTag || this.options.multiLineParagraph) {
             return startParaTag + html + endParaTag;
         }

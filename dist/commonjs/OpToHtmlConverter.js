@@ -1,12 +1,38 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpToHtmlConverter = exports.DEFAULT_INLINE_STYLES = void 0;
 var funcs_html_1 = require("./funcs-html");
 var value_types_1 = require("./value-types");
 var obj = __importStar(require("./helpers/object"));
@@ -75,12 +101,12 @@ var OpToHtmlConverter = (function () {
         for (var _i = 0, tags_1 = tags; _i < tags_1.length; _i++) {
             var tag = tags_1[_i];
             if (isImageLink(tag)) {
-                beginTags.push(funcs_html_1.makeStartTag('a', this.getLinkAttrs()));
+                beginTags.push((0, funcs_html_1.makeStartTag)('a', this.getLinkAttrs()));
             }
-            beginTags.push(funcs_html_1.makeStartTag(tag, attrs));
-            endTags.push(tag === 'img' ? '' : funcs_html_1.makeEndTag(tag));
+            beginTags.push((0, funcs_html_1.makeStartTag)(tag, attrs));
+            endTags.push(tag === 'img' ? '' : (0, funcs_html_1.makeEndTag)(tag));
             if (isImageLink(tag)) {
-                endTags.push(funcs_html_1.makeEndTag('a'));
+                endTags.push((0, funcs_html_1.makeEndTag)('a'));
             }
             attrs = [];
         }
@@ -99,7 +125,7 @@ var OpToHtmlConverter = (function () {
             return this.op.insert.value;
         }
         var content = this.op.isFormula() || this.op.isText() ? this.op.insert.value : '';
-        return (this.options.encodeHtml && funcs_html_1.encodeHtml(content)) || content;
+        return (this.options.encodeHtml && (0, funcs_html_1.encodeHtml)(content)) || content;
     };
     OpToHtmlConverter.prototype.getCssClasses = function () {
         var attrs = this.op.attributes;
@@ -321,9 +347,9 @@ var OpToHtmlConverter = (function () {
             ['underline', 'u'],
             ['code'],
         ];
-        return inlineTags.filter(function (item) { return !!attrs[item[0]]; }).concat(Object.keys(customTagsMap)
+        return __spreadArray(__spreadArray([], inlineTags.filter(function (item) { return !!attrs[item[0]]; }), true), Object.keys(customTagsMap)
             .filter(function (t) { return !inlineTags.some(function (it) { return it[0] == t; }); })
-            .map(function (t) { return [t, customTagsMap[t]]; })).map(function (item) {
+            .map(function (t) { return [t, customTagsMap[t]]; }), true).map(function (item) {
             return customTagsMap[item[0]]
                 ? customTagsMap[item[0]]
                 : item[0] === 'script'

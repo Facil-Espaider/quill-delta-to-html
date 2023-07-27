@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TableGrouper = void 0;
 var group_types_1 = require("./group-types");
 var array_1 = require("../helpers/array");
 var TableGrouper = (function () {
@@ -11,7 +12,7 @@ var TableGrouper = (function () {
     };
     TableGrouper.prototype.convertTableBlocksToTableGroups = function (items) {
         var _this = this;
-        var grouped = array_1.groupConsecutiveElementsWhile(items, function (g, gPrev) {
+        var grouped = (0, array_1.groupConsecutiveElementsWhile)(items, function (g, gPrev) {
             return (g instanceof group_types_1.BlockGroup &&
                 gPrev instanceof group_types_1.BlockGroup &&
                 g.op.isTable() &&
@@ -28,7 +29,7 @@ var TableGrouper = (function () {
         });
     };
     TableGrouper.prototype.convertTableBlocksToTableRows = function (items) {
-        var grouped = array_1.groupConsecutiveElementsWhile(items, function (g, gPrev) {
+        var grouped = (0, array_1.groupConsecutiveElementsWhile)(items, function (g, gPrev) {
             return (g instanceof group_types_1.BlockGroup &&
                 gPrev instanceof group_types_1.BlockGroup &&
                 g.op.isTable() &&

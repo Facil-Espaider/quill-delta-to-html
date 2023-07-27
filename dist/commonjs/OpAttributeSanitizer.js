@@ -1,5 +1,15 @@
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpAttributeSanitizer = void 0;
 var value_types_1 = require("./value-types");
 var MentionSanitizer_1 = require("./mentions/MentionSanitizer");
 var array_1 = require("./helpers/array");
@@ -25,7 +35,7 @@ var OpAttributeSanitizer = (function () {
         var colorAttrs = ['background', 'color'];
         var font = dirtyAttrs.font, size = dirtyAttrs.size, link = dirtyAttrs.link, script = dirtyAttrs.script, list = dirtyAttrs.list, header = dirtyAttrs.header, align = dirtyAttrs.align, direction = dirtyAttrs.direction, indent = dirtyAttrs.indent, mentions = dirtyAttrs.mentions, mention = dirtyAttrs.mention, width = dirtyAttrs.width, target = dirtyAttrs.target, rel = dirtyAttrs.rel;
         var codeBlock = dirtyAttrs['code-block'];
-        var sanitizedAttrs = booleanAttrs.concat(colorAttrs, [
+        var sanitizedAttrs = __spreadArray(__spreadArray(__spreadArray([], booleanAttrs, true), colorAttrs, true), [
             'font',
             'size',
             'link',
@@ -41,7 +51,7 @@ var OpAttributeSanitizer = (function () {
             'target',
             'rel',
             'code-block',
-        ]);
+        ], false);
         booleanAttrs.forEach(function (prop) {
             var v = dirtyAttrs[prop];
             if (v) {
@@ -95,7 +105,7 @@ var OpAttributeSanitizer = (function () {
         if (Number(header)) {
             cleanAttrs.header = Math.min(Number(header), 6);
         }
-        if (array_1.find([value_types_1.AlignType.Center, value_types_1.AlignType.Right, value_types_1.AlignType.Justify, value_types_1.AlignType.Left], function (a) { return a === align; })) {
+        if ((0, array_1.find)([value_types_1.AlignType.Center, value_types_1.AlignType.Right, value_types_1.AlignType.Justify, value_types_1.AlignType.Left], function (a) { return a === align; })) {
             cleanAttrs.align = align;
         }
         if (direction === value_types_1.DirectionType.Rtl) {

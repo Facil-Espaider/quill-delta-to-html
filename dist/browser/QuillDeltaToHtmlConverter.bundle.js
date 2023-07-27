@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DeltaInsertOp = void 0;
 var value_types_1 = require("./value-types");
 var InsertData_1 = require("./InsertData");
 var lodash_isequal_1 = __importDefault(require("lodash.isequal"));
@@ -52,7 +53,7 @@ var DeltaInsertOp = (function () {
         return this.attributes.indent === op.attributes.indent;
     };
     DeltaInsertOp.prototype.hasSameAttr = function (op) {
-        return lodash_isequal_1.default(this.attributes, op.attributes);
+        return (0, lodash_isequal_1.default)(this.attributes, op.attributes);
     };
     DeltaInsertOp.prototype.hasHigherIndentThan = function (op) {
         return ((Number(this.attributes.indent) || 0) >
@@ -138,6 +139,7 @@ exports.DeltaInsertOp = DeltaInsertOp;
 },{"./InsertData":2,"./value-types":19,"lodash.isequal":20}],2:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InsertDataQuill = exports.InsertDataCustom = void 0;
 var InsertDataQuill = (function () {
     function InsertDataQuill(type, value) {
         this.type = type;
@@ -157,14 +159,31 @@ exports.InsertDataCustom = InsertDataCustom;
 
 },{}],3:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InsertOpDenormalizer = void 0;
 var value_types_1 = require("./value-types");
 var str = __importStar(require("./helpers/string"));
 var obj = __importStar(require("./helpers/object"));
@@ -199,6 +218,7 @@ exports.InsertOpDenormalizer = InsertOpDenormalizer;
 },{"./helpers/object":15,"./helpers/string":16,"./value-types":19}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.InsertOpsConverter = void 0;
 var DeltaInsertOp_1 = require("./DeltaInsertOp");
 var value_types_1 = require("./value-types");
 var InsertData_1 = require("./InsertData");
@@ -255,7 +275,17 @@ exports.InsertOpsConverter = InsertOpsConverter;
 
 },{"./DeltaInsertOp":1,"./InsertData":2,"./InsertOpDenormalizer":3,"./OpAttributeSanitizer":5,"./OpLinkSanitizer":6,"./value-types":19}],5:[function(require,module,exports){
 "use strict";
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpAttributeSanitizer = void 0;
 var value_types_1 = require("./value-types");
 var MentionSanitizer_1 = require("./mentions/MentionSanitizer");
 var array_1 = require("./helpers/array");
@@ -281,7 +311,7 @@ var OpAttributeSanitizer = (function () {
         var colorAttrs = ['background', 'color'];
         var font = dirtyAttrs.font, size = dirtyAttrs.size, link = dirtyAttrs.link, script = dirtyAttrs.script, list = dirtyAttrs.list, header = dirtyAttrs.header, align = dirtyAttrs.align, direction = dirtyAttrs.direction, indent = dirtyAttrs.indent, mentions = dirtyAttrs.mentions, mention = dirtyAttrs.mention, width = dirtyAttrs.width, target = dirtyAttrs.target, rel = dirtyAttrs.rel;
         var codeBlock = dirtyAttrs['code-block'];
-        var sanitizedAttrs = booleanAttrs.concat(colorAttrs, [
+        var sanitizedAttrs = __spreadArray(__spreadArray(__spreadArray([], booleanAttrs, true), colorAttrs, true), [
             'font',
             'size',
             'link',
@@ -297,7 +327,7 @@ var OpAttributeSanitizer = (function () {
             'target',
             'rel',
             'code-block',
-        ]);
+        ], false);
         booleanAttrs.forEach(function (prop) {
             var v = dirtyAttrs[prop];
             if (v) {
@@ -351,7 +381,7 @@ var OpAttributeSanitizer = (function () {
         if (Number(header)) {
             cleanAttrs.header = Math.min(Number(header), 6);
         }
-        if (array_1.find([value_types_1.AlignType.Center, value_types_1.AlignType.Right, value_types_1.AlignType.Justify, value_types_1.AlignType.Left], function (a) { return a === align; })) {
+        if ((0, array_1.find)([value_types_1.AlignType.Center, value_types_1.AlignType.Right, value_types_1.AlignType.Justify, value_types_1.AlignType.Left], function (a) { return a === align; })) {
             cleanAttrs.align = align;
         }
         if (direction === value_types_1.DirectionType.Rtl) {
@@ -411,14 +441,31 @@ exports.OpAttributeSanitizer = OpAttributeSanitizer;
 
 },{"./OpLinkSanitizer":6,"./helpers/array":14,"./mentions/MentionSanitizer":18,"./value-types":19}],6:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpLinkSanitizer = void 0;
 var url = __importStar(require("./helpers/url"));
 var funcs_html_1 = require("./funcs-html");
 var OpLinkSanitizer = (function () {
@@ -432,7 +479,7 @@ var OpLinkSanitizer = (function () {
             sanitizerFn = options.urlSanitizer;
         }
         var result = sanitizerFn(link);
-        return typeof result === 'string' ? result : funcs_html_1.encodeLink(url.sanitize(link));
+        return typeof result === 'string' ? result : (0, funcs_html_1.encodeLink)(url.sanitize(link));
     };
     return OpLinkSanitizer;
 }());
@@ -440,14 +487,40 @@ exports.OpLinkSanitizer = OpLinkSanitizer;
 
 },{"./funcs-html":9,"./helpers/url":17}],7:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OpToHtmlConverter = exports.DEFAULT_INLINE_STYLES = void 0;
 var funcs_html_1 = require("./funcs-html");
 var value_types_1 = require("./value-types");
 var obj = __importStar(require("./helpers/object"));
@@ -516,12 +589,12 @@ var OpToHtmlConverter = (function () {
         for (var _i = 0, tags_1 = tags; _i < tags_1.length; _i++) {
             var tag = tags_1[_i];
             if (isImageLink(tag)) {
-                beginTags.push(funcs_html_1.makeStartTag('a', this.getLinkAttrs()));
+                beginTags.push((0, funcs_html_1.makeStartTag)('a', this.getLinkAttrs()));
             }
-            beginTags.push(funcs_html_1.makeStartTag(tag, attrs));
-            endTags.push(tag === 'img' ? '' : funcs_html_1.makeEndTag(tag));
+            beginTags.push((0, funcs_html_1.makeStartTag)(tag, attrs));
+            endTags.push(tag === 'img' ? '' : (0, funcs_html_1.makeEndTag)(tag));
             if (isImageLink(tag)) {
-                endTags.push(funcs_html_1.makeEndTag('a'));
+                endTags.push((0, funcs_html_1.makeEndTag)('a'));
             }
             attrs = [];
         }
@@ -540,7 +613,7 @@ var OpToHtmlConverter = (function () {
             return this.op.insert.value;
         }
         var content = this.op.isFormula() || this.op.isText() ? this.op.insert.value : '';
-        return (this.options.encodeHtml && funcs_html_1.encodeHtml(content)) || content;
+        return (this.options.encodeHtml && (0, funcs_html_1.encodeHtml)(content)) || content;
     };
     OpToHtmlConverter.prototype.getCssClasses = function () {
         var attrs = this.op.attributes;
@@ -762,9 +835,9 @@ var OpToHtmlConverter = (function () {
             ['underline', 'u'],
             ['code'],
         ];
-        return inlineTags.filter(function (item) { return !!attrs[item[0]]; }).concat(Object.keys(customTagsMap)
+        return __spreadArray(__spreadArray([], inlineTags.filter(function (item) { return !!attrs[item[0]]; }), true), Object.keys(customTagsMap)
             .filter(function (t) { return !inlineTags.some(function (it) { return it[0] == t; }); })
-            .map(function (t) { return [t, customTagsMap[t]]; })).map(function (item) {
+            .map(function (t) { return [t, customTagsMap[t]]; }), true).map(function (item) {
             return customTagsMap[item[0]]
                 ? customTagsMap[item[0]]
                 : item[0] === 'script'
@@ -780,14 +853,31 @@ exports.OpToHtmlConverter = OpToHtmlConverter;
 
 },{"./OpAttributeSanitizer":5,"./funcs-html":9,"./helpers/array":14,"./helpers/object":15,"./value-types":19}],8:[function(require,module,exports){
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.QuillDeltaToHtmlConverter = void 0;
 var InsertOpsConverter_1 = require("./InsertOpsConverter");
 var OpToHtmlConverter_1 = require("./OpToHtmlConverter");
 var Grouper_1 = require("./grouper/Grouper");
@@ -930,9 +1020,9 @@ var QuillDeltaToHtmlConverter = (function () {
     QuillDeltaToHtmlConverter.prototype._renderList = function (list) {
         var _this = this;
         var firstItem = list.items[0];
-        return (funcs_html_1.makeStartTag(this._getListTag(firstItem.item.op)) +
+        return ((0, funcs_html_1.makeStartTag)(this._getListTag(firstItem.item.op)) +
             list.items.map(function (li) { return _this._renderListItem(li); }).join('') +
-            funcs_html_1.makeEndTag(this._getListTag(firstItem.item.op)));
+            (0, funcs_html_1.makeEndTag)(this._getListTag(firstItem.item.op)));
     };
     QuillDeltaToHtmlConverter.prototype._renderListItem = function (li) {
         li.item.op.attributes.indent = 0;
@@ -946,30 +1036,30 @@ var QuillDeltaToHtmlConverter = (function () {
     };
     QuillDeltaToHtmlConverter.prototype._renderTable = function (table) {
         var _this = this;
-        return (funcs_html_1.makeStartTag('table') +
-            funcs_html_1.makeStartTag('tbody') +
+        return ((0, funcs_html_1.makeStartTag)('table') +
+            (0, funcs_html_1.makeStartTag)('tbody') +
             table.rows.map(function (row) { return _this._renderTableRow(row); }).join('') +
-            funcs_html_1.makeEndTag('tbody') +
-            funcs_html_1.makeEndTag('table'));
+            (0, funcs_html_1.makeEndTag)('tbody') +
+            (0, funcs_html_1.makeEndTag)('table'));
     };
     QuillDeltaToHtmlConverter.prototype._renderTableRow = function (row) {
         var _this = this;
-        return (funcs_html_1.makeStartTag('tr') +
+        return ((0, funcs_html_1.makeStartTag)('tr') +
             row.cells.map(function (cell) { return _this._renderTableCell(cell); }).join('') +
-            funcs_html_1.makeEndTag('tr'));
+            (0, funcs_html_1.makeEndTag)('tr'));
     };
     QuillDeltaToHtmlConverter.prototype._renderTableCell = function (cell) {
         var converter = new OpToHtmlConverter_1.OpToHtmlConverter(cell.item.op, this.converterOptions);
         var parts = converter.getHtmlParts();
         var cellElementsHtml = this._renderInlines(cell.item.ops, false);
-        return (funcs_html_1.makeStartTag('td', {
+        return ((0, funcs_html_1.makeStartTag)('td', {
             key: 'data-row',
             value: cell.item.op.attributes.table,
         }) +
             parts.openingTag +
             cellElementsHtml +
             parts.closingTag +
-            funcs_html_1.makeEndTag('td'));
+            (0, funcs_html_1.makeEndTag)('td'));
     };
     QuillDeltaToHtmlConverter.prototype._renderBlock = function (bop, ops) {
         var _this = this;
@@ -977,7 +1067,7 @@ var QuillDeltaToHtmlConverter = (function () {
         var htmlParts = converter.getHtmlParts();
         if (bop.isCodeBlock()) {
             return (htmlParts.openingTag +
-                funcs_html_1.encodeHtml(ops
+                (0, funcs_html_1.encodeHtml)(ops
                     .map(function (iop) {
                     return iop.isCustomEmbed()
                         ? _this._renderCustom(iop, bop)
@@ -1004,8 +1094,8 @@ var QuillDeltaToHtmlConverter = (function () {
         if (!isInlineGroup) {
             return html;
         }
-        var startParaTag = funcs_html_1.makeStartTag(this.options.paragraphTag);
-        var endParaTag = funcs_html_1.makeEndTag(this.options.paragraphTag);
+        var startParaTag = (0, funcs_html_1.makeStartTag)(this.options.paragraphTag);
+        var endParaTag = (0, funcs_html_1.makeEndTag)(this.options.paragraphTag);
         if (html === BrTag || this.options.multiLineParagraph) {
             return startParaTag + html + endParaTag;
         }
@@ -1052,6 +1142,7 @@ exports.QuillDeltaToHtmlConverter = QuillDeltaToHtmlConverter;
 },{"./InsertOpsConverter":4,"./OpToHtmlConverter":7,"./funcs-html":9,"./grouper/Grouper":10,"./grouper/ListNester":11,"./grouper/TableGrouper":12,"./grouper/group-types":13,"./helpers/object":15,"./value-types":19}],9:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.encodeLink = exports.decodeHtml = exports.encodeHtml = exports.makeEndTag = exports.makeStartTag = void 0;
 var EncodeTarget;
 (function (EncodeTarget) {
     EncodeTarget[EncodeTarget["Html"] = 0] = "Html";
@@ -1075,12 +1166,12 @@ function makeStartTag(tag, attrs) {
     if (tag === 'img' || tag === 'br') {
         closing = '/>';
     }
-    return attrsStr ? "<" + tag + " " + attrsStr + closing : "<" + tag + closing;
+    return attrsStr ? "<".concat(tag, " ").concat(attrsStr).concat(closing) : "<".concat(tag).concat(closing);
 }
 exports.makeStartTag = makeStartTag;
 function makeEndTag(tag) {
     if (tag === void 0) { tag = ''; }
-    return (tag && "</" + tag + ">") || '';
+    return (tag && "</".concat(tag, ">")) || '';
 }
 exports.makeEndTag = makeEndTag;
 function decodeHtml(str) {
@@ -1135,6 +1226,7 @@ function decodeMapping(str, mapping) {
 },{}],10:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Grouper = void 0;
 var DeltaInsertOp_1 = require("./../DeltaInsertOp");
 var array_1 = require("./../helpers/array");
 var group_types_1 = require("./group-types");
@@ -1161,12 +1253,12 @@ var Grouper = (function () {
                 result.push(new group_types_1.BlotBlock(op));
             }
             else if (op.isContainerBlock()) {
-                opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, canBeInBlock);
+                opsSlice = (0, array_1.sliceFromReverseWhile)(ops, i - 1, canBeInBlock);
                 result.push(new group_types_1.BlockGroup(op, opsSlice.elements));
                 i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
             }
             else {
-                opsSlice = array_1.sliceFromReverseWhile(ops, i - 1, isInlineData);
+                opsSlice = (0, array_1.sliceFromReverseWhile)(ops, i - 1, isInlineData);
                 result.push(new group_types_1.InlineGroup(opsSlice.elements.concat(op)));
                 i = opsSlice.sliceStartsAt > -1 ? opsSlice.sliceStartsAt : i;
             }
@@ -1181,7 +1273,7 @@ var Grouper = (function () {
             blockquotes: true,
             customBlocks: true,
         }; }
-        return array_1.groupConsecutiveElementsWhile(groups, function (g, gPrev) {
+        return (0, array_1.groupConsecutiveElementsWhile)(groups, function (g, gPrev) {
             if (!(g instanceof group_types_1.BlockGroup) || !(gPrev instanceof group_types_1.BlockGroup)) {
                 return false;
             }
@@ -1205,7 +1297,7 @@ var Grouper = (function () {
                 return elm;
             }
             var groupsLastInd = elm.length - 1;
-            elm[0].ops = array_1.flatten(elm.map(function (g, i) {
+            elm[0].ops = (0, array_1.flatten)(elm.map(function (g, i) {
                 if (!g.ops.length) {
                     return [newLineOp];
                 }
@@ -1239,6 +1331,7 @@ exports.Grouper = Grouper;
 },{"./../DeltaInsertOp":1,"./../helpers/array":14,"./group-types":13}],11:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ListNester = void 0;
 var group_types_1 = require("./group-types");
 var array_1 = require("./../helpers/array");
 var ListNester = (function () {
@@ -1248,13 +1341,13 @@ var ListNester = (function () {
         var _this = this;
         var listBlocked = this.convertListBlocksToListGroups(groups);
         var groupedByListGroups = this.groupConsecutiveListGroups(listBlocked);
-        var nested = array_1.flatten(groupedByListGroups.map(function (group) {
+        var nested = (0, array_1.flatten)(groupedByListGroups.map(function (group) {
             if (!Array.isArray(group)) {
                 return group;
             }
             return _this.nestListSection(group);
         }));
-        var groupRootLists = array_1.groupConsecutiveElementsWhile(nested, function (curr, prev) {
+        var groupRootLists = (0, array_1.groupConsecutiveElementsWhile)(nested, function (curr, prev) {
             if (!(curr instanceof group_types_1.ListGroup && prev instanceof group_types_1.ListGroup)) {
                 return false;
             }
@@ -1265,11 +1358,11 @@ var ListNester = (function () {
                 return v;
             }
             var litems = v.map(function (g) { return g.items; });
-            return new group_types_1.ListGroup(array_1.flatten(litems));
+            return new group_types_1.ListGroup((0, array_1.flatten)(litems));
         });
     };
     ListNester.prototype.convertListBlocksToListGroups = function (items) {
-        var grouped = array_1.groupConsecutiveElementsWhile(items, function (g, gPrev) {
+        var grouped = (0, array_1.groupConsecutiveElementsWhile)(items, function (g, gPrev) {
             return (g instanceof group_types_1.BlockGroup &&
                 gPrev instanceof group_types_1.BlockGroup &&
                 g.op.isList() &&
@@ -1288,7 +1381,7 @@ var ListNester = (function () {
         });
     };
     ListNester.prototype.groupConsecutiveListGroups = function (items) {
-        return array_1.groupConsecutiveElementsWhile(items, function (curr, prev) {
+        return (0, array_1.groupConsecutiveElementsWhile)(items, function (curr, prev) {
             return curr instanceof group_types_1.ListGroup && prev instanceof group_types_1.ListGroup;
         });
     };
@@ -1342,6 +1435,7 @@ exports.ListNester = ListNester;
 },{"./../helpers/array":14,"./group-types":13}],12:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TableGrouper = void 0;
 var group_types_1 = require("./group-types");
 var array_1 = require("../helpers/array");
 var TableGrouper = (function () {
@@ -1353,7 +1447,7 @@ var TableGrouper = (function () {
     };
     TableGrouper.prototype.convertTableBlocksToTableGroups = function (items) {
         var _this = this;
-        var grouped = array_1.groupConsecutiveElementsWhile(items, function (g, gPrev) {
+        var grouped = (0, array_1.groupConsecutiveElementsWhile)(items, function (g, gPrev) {
             return (g instanceof group_types_1.BlockGroup &&
                 gPrev instanceof group_types_1.BlockGroup &&
                 g.op.isTable() &&
@@ -1370,7 +1464,7 @@ var TableGrouper = (function () {
         });
     };
     TableGrouper.prototype.convertTableBlocksToTableRows = function (items) {
-        var grouped = array_1.groupConsecutiveElementsWhile(items, function (g, gPrev) {
+        var grouped = (0, array_1.groupConsecutiveElementsWhile)(items, function (g, gPrev) {
             return (g instanceof group_types_1.BlockGroup &&
                 gPrev instanceof group_types_1.BlockGroup &&
                 g.op.isTable() &&
@@ -1390,16 +1484,22 @@ exports.TableGrouper = TableGrouper;
 },{"../helpers/array":14,"./group-types":13}],13:[function(require,module,exports){
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TableCell = exports.TableRow = exports.TableGroup = exports.ListItem = exports.ListGroup = exports.BlockGroup = exports.InlineGroup = exports.BlotBlock = exports.VideoItem = void 0;
 var InlineGroup = (function () {
     function InlineGroup(ops) {
         this.ops = ops;
@@ -1478,6 +1578,7 @@ exports.TableCell = TableCell;
 },{}],14:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.find = exports.intersperse = exports.sliceFromReverseWhile = exports.groupConsecutiveElementsWhile = exports.flatten = exports.preferSecond = void 0;
 function preferSecond(arr) {
     if (arr.length === 0) {
         return null;
@@ -1547,6 +1648,7 @@ exports.intersperse = intersperse;
 },{}],15:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.assign = void 0;
 function assign(target) {
     var sources = [];
     for (var _i = 1; _i < arguments.length; _i++) {
@@ -1573,6 +1675,7 @@ exports.assign = assign;
 },{}],16:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tokenizeWithNewLines = void 0;
 function tokenizeWithNewLines(str) {
     var NewLine = '\n';
     if (str === NewLine) {
@@ -1603,6 +1706,7 @@ exports.tokenizeWithNewLines = tokenizeWithNewLines;
 },{}],17:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.sanitize = void 0;
 function sanitize(str) {
     var val = str;
     val = val.replace(/^\s*/gm, '');
@@ -1617,6 +1721,7 @@ exports.sanitize = sanitize;
 },{}],18:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MentionSanitizer = void 0;
 var OpLinkSanitizer_1 = require("../OpLinkSanitizer");
 var MentionSanitizer = (function () {
     function MentionSanitizer() {
@@ -1662,6 +1767,7 @@ exports.MentionSanitizer = MentionSanitizer;
 },{"../OpLinkSanitizer":6}],19:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.GroupType = exports.DataType = exports.AlignType = exports.DirectionType = exports.ScriptType = exports.ListType = exports.NewLine = void 0;
 var NewLine = '\n';
 exports.NewLine = NewLine;
 var ListType;
@@ -1670,35 +1776,30 @@ var ListType;
     ListType["Bullet"] = "bullet";
     ListType["Checked"] = "checked";
     ListType["Unchecked"] = "unchecked";
-})(ListType || (ListType = {}));
-exports.ListType = ListType;
+})(ListType || (exports.ListType = ListType = {}));
 var ScriptType;
 (function (ScriptType) {
     ScriptType["Sub"] = "sub";
     ScriptType["Super"] = "super";
-})(ScriptType || (ScriptType = {}));
-exports.ScriptType = ScriptType;
+})(ScriptType || (exports.ScriptType = ScriptType = {}));
 var DirectionType;
 (function (DirectionType) {
     DirectionType["Rtl"] = "rtl";
-})(DirectionType || (DirectionType = {}));
-exports.DirectionType = DirectionType;
+})(DirectionType || (exports.DirectionType = DirectionType = {}));
 var AlignType;
 (function (AlignType) {
     AlignType["Left"] = "left";
     AlignType["Center"] = "center";
     AlignType["Right"] = "right";
     AlignType["Justify"] = "justify";
-})(AlignType || (AlignType = {}));
-exports.AlignType = AlignType;
+})(AlignType || (exports.AlignType = AlignType = {}));
 var DataType;
 (function (DataType) {
     DataType["Image"] = "image";
     DataType["Video"] = "video";
     DataType["Formula"] = "formula";
     DataType["Text"] = "text";
-})(DataType || (DataType = {}));
-exports.DataType = DataType;
+})(DataType || (exports.DataType = DataType = {}));
 var GroupType;
 (function (GroupType) {
     GroupType["Block"] = "block";
@@ -1706,11 +1807,10 @@ var GroupType;
     GroupType["List"] = "list";
     GroupType["Video"] = "video";
     GroupType["Table"] = "table";
-})(GroupType || (GroupType = {}));
-exports.GroupType = GroupType;
+})(GroupType || (exports.GroupType = GroupType = {}));
 
 },{}],20:[function(require,module,exports){
-(function (global){
+(function (global){(function (){
 /**
  * Lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
@@ -3560,7 +3660,7 @@ function stubFalse() {
 
 module.exports = isEqual;
 
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[8])(8)
 });
 ; window.QuillDeltaToHtmlConverter = window.QuillDeltaToHtmlConverter ? window.QuillDeltaToHtmlConverter.QuillDeltaToHtmlConverter : window.QuillDeltaToHtmlConverter; 
