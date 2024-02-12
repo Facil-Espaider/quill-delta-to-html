@@ -36,5 +36,6 @@ declare class DeltaInsertOp {
     isCustomEmbedBlock(): boolean;
     isCustomTextBlock(): boolean;
     isMentions(): boolean;
+    isTableCellLine(): boolean;
 }
 export { DeltaInsertOp };

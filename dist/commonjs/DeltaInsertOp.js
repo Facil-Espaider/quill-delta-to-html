@@ -19,7 +19,7 @@ var DeltaInsertOp = (function () {
         return new DeltaInsertOp(value_types_1.NewLine);
     };
     DeltaInsertOp.prototype.isContainerBlock = function () {
-        return (this.isBlockquote() ||
+        return !this.isTableCellLine() && (this.isBlockquote() ||
             this.isList() ||
             this.isTable() ||
             this.isCodeBlock() ||
@@ -130,6 +130,9 @@ var DeltaInsertOp = (function () {
     };
     DeltaInsertOp.prototype.isMentions = function () {
         return this.isText() && !!this.attributes.mentions;
+    };
+    DeltaInsertOp.prototype.isTableCellLine = function () {
+        return !!this.attributes['table-cell-line'];
     };
     return DeltaInsertOp;
 }());

@@ -21,6 +21,7 @@ interface IOpAttributes {
     direction?: DirectionType;
     indent?: number | undefined;
     table?: string | undefined;
+    'table-cell-line'?: string | undefined;
     mentions?: boolean | undefined;
     mention?: IMention | undefined;
     target?: string | undefined;

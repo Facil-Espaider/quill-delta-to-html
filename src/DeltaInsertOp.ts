@@ -20,7 +20,7 @@ class DeltaInsertOp {
   }
 
   isContainerBlock() {
-    return (
+    return !this.isTableCellLine() && (
       this.isBlockquote() ||
       this.isList() ||
       this.isTable() ||
@@ -179,6 +179,10 @@ class DeltaInsertOp {
   isMentions() {
     return this.isText() && !!this.attributes.mentions;
   }
+
+  isTableCellLine() {
+    return !!this.attributes['table-cell-line'];
+}
 }
 
 export { DeltaInsertOp };
