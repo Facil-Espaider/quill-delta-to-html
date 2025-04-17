@@ -30,11 +30,7 @@ const DEFAULT_INLINE_FONTS: { [key: string]: string } = {
 
 export const DEFAULT_INLINE_STYLES: IInlineStyles = {
   font: (value) => DEFAULT_INLINE_FONTS[value] || 'font-family:' + value,
-  size: {
-    small: 'font-size: 0.75em',
-    large: 'font-size: 1.5em',
-    huge: 'font-size: 2.5em',
-  },
+  size: (value) => 'font-size:' + value,
   indent: (value, op) => {
     var indentSize = parseInt(value, 10) * 3;
     var side = op.attributes['direction'] === 'rtl' ? 'right' : 'left';
@@ -124,6 +120,20 @@ class OpToHtmlConverter {
       if (isImageLink(tag)) {
         beginTags.push(makeStartTag('a', this.getLinkAttrs()));
       }
+      if (tag === 'text-transform'){
+        const textTransformValue = this.op.attributes.text_transform;
+        const existingStyle = attrs.find((attr: any) => attr.key === 'style');
+
+        if (existingStyle) {
+          existingStyle.value = (existingStyle.value ?? '') + `;text-transform: ${textTransformValue}`;
+        }
+        else {
+          attrs.push({
+            key: 'style',
+            value: `text-transform: ${textTransformValue}`
+          });
+        }
+      }
       beginTags.push(makeStartTag(tag, attrs));
       endTags.push(tag === 'img' ? '' : makeEndTag(tag));
       if (isImageLink(tag)) {
@@ -198,7 +208,7 @@ class OpToHtmlConverter {
         ['align', 'text-align'],
         ['direction'],
         ['font', 'font-family'],
-        ['size'],
+        ['size', 'font-size']
       ]);
     }
 
@@ -441,6 +451,7 @@ class OpToHtmlConverter {
       ['strike', 's'],
       ['underline', 'u'],
       ['code'],
+      ['text_transform', 'text-transform']
     ];
 
     return [
