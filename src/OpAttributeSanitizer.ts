@@ -83,6 +83,7 @@ class OpAttributeSanitizer {
       mentions,
       mention,
       width,
+      naturalWidth,
       target,
       rel,
     } = dirtyAttrs;
@@ -103,6 +104,7 @@ class OpAttributeSanitizer {
       'mentions',
       'mention',
       'width',
+      'naturalWidth',
       'target',
       'rel',
       'code-block',
@@ -136,6 +138,10 @@ class OpAttributeSanitizer {
 
     if (width && OpAttributeSanitizer.IsValidWidth(width + '')) {
       cleanAttrs.width = width;
+    }
+
+    if (naturalWidth && OpAttributeSanitizer.IsValidWidth(naturalWidth + '')) {
+      cleanAttrs.naturalWidth = naturalWidth;
     }
 
     if (link) {
@@ -232,7 +238,7 @@ class OpAttributeSanitizer {
   }
 
   static IsValidWidth(width: string) {
-    return !!width.match(/^[0-9]*(px|em|%)?$/);
+    return !!width.match(/^\d+(\.\d+)?(px|em|%)?$/);
   }
 
   static isValidTarget(target: string) {

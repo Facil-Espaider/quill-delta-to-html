@@ -261,7 +261,8 @@ class OpToHtmlConverter {
     if (this.op.isImage()) {
       this.op.attributes.width &&
         (tagAttrs = tagAttrs.concat(
-          makeAttr('width', this.op.attributes.width)
+          makeAttr('width', this.op.attributes.width),
+          makeAttr('data-natural-width', this.op.attributes.naturalWidth)
         ));
       return tagAttrs.concat(makeAttr('src', this.op.insert.value));
     }
