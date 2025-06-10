@@ -230,7 +230,7 @@ class OpAttributeSanitizer {
   }
 
   static IsValidFontName(fontName: string) {
-    return !!fontName.match(/^[a-z\s0-9\- ]{1,30}$/i);
+    return !!fontName.match(/^[a-z0-9_\-\s]{1,30}$/i);
   }
 
   static IsValidSize(size: string) {
