@@ -32,6 +32,13 @@ var OpAttributeSanitizer = (function () {
             'code-block',
             'renderAsBlock',
         ];
+
+        //QuillImage
+        var wrapType = dirtyAttrs.wrapType;
+        var behindText = dirtyAttrs.behindText;
+        var top = dirtyAttrs.top;
+        var left = dirtyAttrs.left;
+
         var colorAttrs = ['background', 'color'];
         var font = dirtyAttrs.font, size = dirtyAttrs.size, link = dirtyAttrs.link, script = dirtyAttrs.script, list = dirtyAttrs.list, header = dirtyAttrs.header, align = dirtyAttrs.align, direction = dirtyAttrs.direction, indent = dirtyAttrs.indent, mentions = dirtyAttrs.mentions, mention = dirtyAttrs.mention, width = dirtyAttrs.width, target = dirtyAttrs.target, rel = dirtyAttrs.rel;
         var codeBlock = dirtyAttrs['code-block'];
@@ -51,7 +58,12 @@ var OpAttributeSanitizer = (function () {
             'target',
             'rel',
             'code-block',
+            'behindText',
+            'wrapType',
+            'top',
+            'left'
         ], false);
+        
         booleanAttrs.forEach(function (prop) {
             var v = dirtyAttrs[prop];
             if (v) {
@@ -67,6 +79,23 @@ var OpAttributeSanitizer = (function () {
                 cleanAttrs[prop] = val;
             }
         });
+
+        if(wrapType != undefined && wrapType != null){
+            cleanAttrs.wrapType = wrapType;
+        }
+
+        if(behindText != undefined && behindText != null){
+            cleanAttrs.behindText = behindText;
+        }
+
+        if(top != undefined && top != null && top != 0){
+            cleanAttrs.top = top;
+        }
+
+        if(left != undefined && left != null && left != 0){
+            cleanAttrs.left = left;
+        }
+
         if (font && OpAttributeSanitizer.IsValidFontName(font + '')) {
             cleanAttrs.font = font;
         }
