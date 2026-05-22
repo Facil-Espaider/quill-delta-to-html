@@ -21,7 +21,7 @@ function makeStartTag(
     var arrAttrs = ([] as ITagKeyValue[]).concat(attrs);
     attrsStr = arrAttrs
       .map(function (attr: any) {
-        return attr.key + (attr.value ? '="' + attr.value + '"' : '');
+        return attr.key + (attr.value != null ? '="' + attr.value + '"' : '');
       })
       .join(' ');
   }
