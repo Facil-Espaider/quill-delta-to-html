@@ -70,6 +70,11 @@ class OpAttributeSanitizer {
 
     let colorAttrs = ['background', 'color'];
 
+    let wrapType = dirtyAttrs.wrapType;
+    let behindText = dirtyAttrs.behindText;
+    let top = dirtyAttrs.top;
+    let left = dirtyAttrs.left;
+
     let {
       font,
       size,
@@ -108,6 +113,10 @@ class OpAttributeSanitizer {
       'target',
       'rel',
       'code-block',
+      'behindText',
+      'wrapType',
+      'top',
+      'left'
     ];
     booleanAttrs.forEach(function (prop: string) {
       var v = (<any>dirtyAttrs)[prop];
@@ -127,6 +136,22 @@ class OpAttributeSanitizer {
         cleanAttrs[prop] = val;
       }
     });
+
+    if (wrapType != null) {
+      cleanAttrs.wrapType = wrapType;
+    }
+
+    if (behindText != null) {
+      cleanAttrs.behindText = behindText;
+    }
+
+    if (top != null && top != 0) {
+      cleanAttrs.top = top;
+    }
+
+    if (left != null && left != 0) {
+      cleanAttrs.left = left;
+    }
 
     if (font && OpAttributeSanitizer.IsValidFontName(font + '')) {
       cleanAttrs.font = font;

@@ -63,7 +63,7 @@ var OpAttributeSanitizer = (function () {
             'top',
             'left'
         ], false);
-        
+
         booleanAttrs.forEach(function (prop) {
             var v = dirtyAttrs[prop];
             if (v) {
@@ -80,21 +80,17 @@ var OpAttributeSanitizer = (function () {
             }
         });
 
-        if(wrapType != undefined && wrapType != null){
+        if (wrapType != null)
             cleanAttrs.wrapType = wrapType;
-        }
 
-        if(behindText != undefined && behindText != null){
+        if (behindText != null)
             cleanAttrs.behindText = behindText;
-        }
 
-        if(top != undefined && top != null && top != 0){
+        if (top != null && top !== 0)
             cleanAttrs.top = top;
-        }
 
-        if(left != undefined && left != null && left != 0){
+        if (left != null && left !== 0)
             cleanAttrs.left = left;
-        }
 
         if (font && OpAttributeSanitizer.IsValidFontName(font + '')) {
             cleanAttrs.font = font;
